@@ -1,6 +1,6 @@
 ﻿using SantasSecret;
 
-IReadOnlyCollection<Person> list = new List<Person>()
+List<Person> list = new()
 {
     new Person { Id = 1, Name = "Андрей", Nickname = "korshenko", FamilyGroup = 1 },
     new Person { Id = 2, Name = "Ольга З.", Nickname = "olga_zaika", FamilyGroup = 1 },
@@ -25,7 +25,7 @@ if (bot.GetOpenChatsQty().Result >= list.Count &&
 
     foreach (var person in list)
     {
-        await bot.Send(person);
+        await bot.Send(person, list.Count);
     }
 }
 else

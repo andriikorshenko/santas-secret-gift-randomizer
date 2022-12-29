@@ -6,25 +6,25 @@ namespace SantasSecret
     public class Sender
     {
         private readonly TelegramBotClient bot = 
-            new(@"5911362108:AAEer6t-KFxmXHZArDxbak9nzDZLkuwdnmo"); 
+            new(@"5911362108:AAEer6t-KFxmXHZArDxbak9nzDZLkuwdnmo");
 
-        public async Task Send(Person person)
+        public async Task Send(Person person, int qty)
         {
             var updates = await bot.GetUpdatesAsync();
-            if (updates == null)
+            if (updates.Count() < qty)
             {
-                throw new Exception("No subs");                
+                throw new Exception("Not enough subs");                
             }
 
             var personUpdate = updates.FirstOrDefault(u => u.Message.From.Username == person.Nickname);
             if (personUpdate == null)
             {
-                throw new Exception($"No message from {person.Nickname}");
+                throw new Exception($"No messages from {person.Nickname}");
             }
 
             var chatId = personUpdate.Message.Chat.Id;
             await bot.SendTextMessageAsync(chatId, $"Ho-ho {person.Name}, your victim is {person.Target.Name}!" +
-                $"Have fun and a happy New Year!");           
+                $"Have fun and a happy New Year!");
         }
 
         public async Task<int> GetOpenChatsQty()
